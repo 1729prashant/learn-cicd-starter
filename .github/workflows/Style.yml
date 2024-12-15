@@ -1,4 +1,4 @@
-name: cistyle
+name: Style
 
 on:
   pull_request:
