@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -67,6 +68,7 @@ func main() {
 	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		f, err := staticFiles.Open("static/index.html")
 		if err != nil {
+			log.Println("DEBUG:  there was an issue while loading the static files")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -91,7 +93,7 @@ func main() {
 	srv := &http.Server{
 		Addr:              ":" + port,
 		Handler:           router,
-		ReadHeaderTimeout: 60,
+		ReadHeaderTimeout: 5 * time.Second,
 	}
 
 	log.Printf("Serving on port: %s\n", port)
